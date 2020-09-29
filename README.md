@@ -4,7 +4,7 @@
 ---
 Flask.ly: A URL shortener made using Flask and SQLite
 
-Support open source software by participating in [Hacktoberfest](hacktoberfest.digitalocean.com) and get goodies and a free t-shirt! :yellow_heart:
+Support open source software by participating in [Hacktoberfest](https://hacktoberfest.digitalocean.com) and get goodies and a free t-shirt! :yellow_heart:
 
 > Please check all issues labelled as `hacktoberfest` to start contributing!
 
