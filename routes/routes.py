@@ -15,12 +15,14 @@ def shorten():
     # Store the input URL and the shortened URL
     # mapped together in the url database
     # Return the shortened URL back
+    return 1;
 
 @router.route('/register')
 def register():
     # Register a User by taking their credentials basically
     # email id and password and storing them in the user database
     # After registration, redirect them to the /shorten/custom
+    return 1;
 
 @router.route('/login')
 def login():
@@ -28,11 +30,13 @@ def login():
     # Check if they match in the user database
     # If they match: redirect them to the /shorten/custom
     # Else send them appropriate message accordingly
+    return 1;
 
 @router.route('/logout')
 def logout():
     # Check if a User is logged in
     # If user is logged in, log them out
+    return 1;
 
 @router.route('/shorten/custom')
 def customShorten():
@@ -42,3 +46,4 @@ def customShorten():
     # Check if the shortened URL is already present in the database
     # If its not, store the user's input and return their custom URL
     # Else ask the user to enter any other custom URL and repeat the process
+    return 1;
