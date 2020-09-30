@@ -20,9 +20,10 @@ Kindly consider leaving a :star: if you like the repository and our organisation
 
 `git checkout -b my-amazing-feature`
 
-* Project specific stuff 
+* To run the project locally:
+  * To setup, run `pip install -r requirements.txt`
+  * To start the project run `python app.py`
 
-`python something.py`
 
 * Once you're all done coding, it's time to open a PR :)
 Run the following commands from the root of the project directory:
