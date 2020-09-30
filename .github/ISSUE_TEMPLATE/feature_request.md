@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Please describe the feature you want this project to offer**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+A clear and concise description of what the problem is.
 
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
