@@ -2,6 +2,11 @@ from flask import Blueprint
 
 router = Blueprint("router", __name__)
 
+dict={}
+# a dictionary stores data in the form of key:value
+# Here, the key will store the shortened URL and
+# the value corresponding to it will store the actual URL
+
 @router.route('/api/status')
 def status():
     return "Up and Running ! :)"
