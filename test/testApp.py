@@ -15,7 +15,7 @@ class AppTests(unittest.TestCase):
         pass
 
     def testCheck(self):
-        response = self.app.get('/status')
+        response = self.app.get('/api/status')
         self.assertEqual(response.data, b'Up and Running ! :)')
 
 if __name__ == '__main__':
