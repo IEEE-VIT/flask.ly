@@ -15,7 +15,7 @@ Kindly consider leaving a :star: if you like the repository and our organisation
 
 * Clone your forked repo and move inside it:
 
-`git clone https://github.com/<your-github-username>/<repo-name>.git && cd <repo-name>`
+`git clone https://github.com/IEEE-VIT/flask.ly.git && cd flask.ly
 
 * Checkout to a new branch to work on an issue:
 
