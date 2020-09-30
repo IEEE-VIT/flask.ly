@@ -14,7 +14,7 @@ class AppTests(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_check(self):
+    def testCheck(self):
         response = self.app.get('/status')
         self.assertEqual(response.data, b'Up and Running ! :)')
 
