@@ -1,4 +1,3 @@
-import datetime as dt
 from app import db
 
 
@@ -14,7 +13,6 @@ class Url(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     original_url = db.Column(db.String(2000), nullable=False)
     short_url = db.Column(db.String(80), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=dt.datetime.now)
 
     def __repr__(self):
         return f"<Url:{self.id}> {self.short_url}"
