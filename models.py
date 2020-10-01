@@ -11,3 +11,4 @@ class User(db.Model):
 
 class Url:
     # Create the url model which stores the original url as well as the shortened url
+    pass
