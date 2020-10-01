@@ -24,6 +24,8 @@ Kindly consider leaving a :star: if you like the repository and our organisation
 `git checkout -b my-amazing-feature`
 
 * To run the project locally:
+  * Copy environment file from `.env.template` to `.env`
+  * Change environment variables if necessary in `.env`
   * To setup, run `pip install -r requirements.txt`
   * To start the project run `python app.py`
 
