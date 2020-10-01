@@ -2,7 +2,6 @@ from base64 import encode, encodebytes
 from flask import Blueprint
 import base64
 import time
-
 from flask.globals import request
 from werkzeug.utils import redirect
 router = Blueprint("router", __name__)
@@ -22,12 +21,16 @@ def quickShorten():
     try:
         url = request.json
         t = str(time.time())
-        encoded_url = base64.urlsafe_b64encode((url['url']+str(t)).encode())
+        encoded_url = base64.urlsafe_b64encode(url['url'].encode())
+        print(encoded_url)
         encoded_url = (encoded_url[0:3]+encoded_url[-5:-2]).decode('utf-8')
         if(encoded_url not in key_url_mapping):
             key_url_mapping[encoded_url] = url['url']
         else:
-            raise Exception("Error")
+            if(url['url'] != key_url_mapping[encoded_url]):
+                encoded_url = base64.urlsafe_b64encode((url['url']+t).encode())
+                encoded_url = (encoded_url[0:3]+encoded_url[-5:-2]).decode('utf-8')
+                key_url_mapping[encoded_url] = url['url']
         return "http://127.0.0.1:5000/{}".format(encoded_url)
     except Exception as e:
         print(e)
@@ -80,10 +83,9 @@ def customShorten():
 @router.route('/<key>', methods=['GET'])
 def redirectToActualURL(key):
     global key_url_mapping
-    # print(key)
-    # print(key_url_mapping)
+    build_url = "https://"+key_url_mapping[key] if key_url_mapping[key][:4] != "http" else key_url_mapping[key]
     if(key in key_url_mapping):
-        return redirect(key_url_mapping[key])
+        return redirect(build_url)
     else:
         return "Not Found"
     # Get the entered URL as (localhost:5000/shortenedURL)
