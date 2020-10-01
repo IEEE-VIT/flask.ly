@@ -2,7 +2,7 @@ from flask import Blueprint
 
 router = Blueprint("router", __name__)
 
-key_url_mapping={}
+key_url_mapping = {}
 # a dictionary stores data in the form of key:value
 # Here, the key will store the shortened URL and
 # the value corresponding to it will store the actual URL
@@ -66,4 +66,4 @@ def redirectToActualURL():
     # Get the entered URL as (localhost:5000/shortenedURL)
     # Now, this route finds the actual URL corresponding to the given one
     # and redirects the user to that actual URL
-    return 1;
+    return "1";
