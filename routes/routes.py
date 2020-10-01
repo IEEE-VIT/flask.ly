@@ -1,9 +1,12 @@
 from base64 import encode, encodebytes
-from flask import Blueprint
+from flask import Blueprint,render_template,url_for,flash,redirect
 import base64
 import time
 from flask.globals import request
 from werkzeug.utils import redirect
+from models import db,User
+from routes.forms import RegistrationForm
+from  werkzeug.security import generate_password_hash , check_password_hash
 router = Blueprint("router", __name__)
 
 key_url_mapping={}
@@ -54,7 +57,27 @@ def register():
     # Register a User by taking their credentials basically
     # email id and password and storing them in the user database
     # After registration, redirect them to the /shorten/custom
+    form=RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data , method='sha256')
+        existing_users = User.query.all()
+     
+        if existing_users:
+            for user in existing_users :
+                if form.email.data == user.email_id :
+                    flash('Email already taken . Please try again .','danger')
+                    return redirect(url_for('register'))
+        
+        
+        new_user = User(email_id = form.email.data,password = hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Registration Successfull','success')
+        return redirect(url_for('customShorten'))
+	# return render_template('Registrationform.html',form=form) 
+    # Uncomment this when you add a registration page template
     return 1;
+
 
 @router.route('/api/login')
 def login():
