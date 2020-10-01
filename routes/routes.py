@@ -22,9 +22,7 @@ def quickShorten():
     try:
         url = request.json
         t = str(time.time())
-        print(t)
         encoded_url = base64.urlsafe_b64encode((url['url']+str(t)).encode())
-        print(encoded_url)
         encoded_url = (encoded_url[0:3]+encoded_url[-5:-2]).decode('utf-8')
         if(encoded_url not in key_url_mapping):
             key_url_mapping[encoded_url] = url['url']
@@ -82,8 +80,8 @@ def customShorten():
 @router.route('/<key>', methods=['GET'])
 def redirectToActualURL(key):
     global key_url_mapping
-    print(key)
-    print(key_url_mapping)
+    # print(key)
+    # print(key_url_mapping)
     if(key in key_url_mapping):
         return redirect(key_url_mapping[key])
     else:
