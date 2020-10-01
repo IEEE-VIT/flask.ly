@@ -1,22 +1,13 @@
 from base64 import encode, encodebytes
-from flask import Blueprint
-from flask import render_template,url_for,flash,redirect
-from  werkzeug.security import generate_password_hash , check_password_hash
-from routes.forms import RegistrationForm
-from routes.models import db ,User
+from flask import Blueprint,render_template,url_for,flash,redirect
 import base64
 import time
 from flask.globals import request
 from werkzeug.utils import redirect
-
-import os
-
-
+from models import db,User
+from routes.forms import RegistrationForm
+from  werkzeug.security import generate_password_hash , check_password_hash
 router = Blueprint("router", __name__)
-
-
-
-
 
 key_url_mapping={}
 # a dictionary stores data in the form of key:value
@@ -48,11 +39,6 @@ def quickShorten():
         print(e)
         return "Error Occured. Try Later"
     # return 1;
-    # Create a dictionary which has the shortened URL as the key
-    # And the actual URL as the value
-    # For easy implementation, just keep auto incrementing the key 
-    
-
 
 @router.route('/api/shorten/url')
 def shorten():
@@ -92,6 +78,7 @@ def register():
     # Uncomment this when you add a registration page template
     return 1;
 
+
 @router.route('/api/login')
 def login():
     # Validate a user by taking their email id and password
@@ -116,13 +103,6 @@ def customShorten():
     # Else ask the user to enter any other custom URL and repeat the process
     return 1;
 
-@router.route('/')
-def redirectToActualURL():
-    # Get the entered URL as (localhost:5000/shortenedURL)
-    # Now, this route finds the actual URL corresponding to the given one
-    # and redirects the user to that actual URL
-    return 1;
-
 @router.route('/<key>', methods=['GET'])
 def redirectToActualURL(key):
     global key_url_mapping
@@ -131,3 +111,6 @@ def redirectToActualURL(key):
         return redirect(build_url)
     else:
         return "Not Found"
+    # Get the entered URL as (localhost:5000/shortenedURL)
+    # Now, this route finds the actual URL corresponding to the given one
+    # and redirects the user to that actual URL
