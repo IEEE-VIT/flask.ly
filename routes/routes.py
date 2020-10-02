@@ -2,6 +2,7 @@ from base64 import encode, encodebytes
 from flask import Blueprint
 import base64
 import time
+import hashlib
 from flask.globals import request
 from werkzeug.utils import redirect
 router = Blueprint("router", __name__)
@@ -37,17 +38,27 @@ def quickShorten():
         return "Error Occured. Try Later"
     # return 1;
 
-@router.route('/api/shorten/url')
+@router.route('/api/shorten/url', methods=['POST'])
 def shorten():
-    # Take the input URL from a user
-    # Check if it's already in the database
-    # If it already exists: return the shortened URL
-    # Else: Shorten it using any encoding or algorithm 
-    # You can use Base 62 too, (https://helloacm.com/base62/)
-    # Store the input URL and the shortened URL
-    # mapped together in the url database
-    # Return the shortened URL back
-    return 1;
+    from models import Url
+    from app import db
+
+    try:
+        url = request.json
+        existing_url = Url.query.filter_by(original_url=url['url']).first()
+        if existing_url:
+            return "http://127.0.0.1:5000/{}".format(existing_url.short_url)
+        else:
+            encoded_url = hashlib.sha1(url['url']).hexdigest()
+            record = Url()
+            record.original_url = url['url']
+            record.short_url = encoded_url
+            db.session.add(record)
+            db.session.commit()
+            return "http://127.0.0.1:5000/{}".format(encoded_url)
+    except Exception as e:
+        print(e)
+        return "Error Occured. Try Later"
 
 @router.route('/api/register')
 def register():
