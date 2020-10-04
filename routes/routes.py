@@ -1,5 +1,6 @@
 from base64 import encode, encodebytes
 from flask import Blueprint
+import sqlalchemy
 import base64
 import time
 import hashlib
@@ -41,23 +42,23 @@ def quickShorten():
 @router.route('/api/shorten/url', methods=['POST'])
 def shorten():
     from models import Url
-    from app import db
+    Url.create_table()
 
     try:
         url = request.json
-        existing_url = Url.query.filter_by(original_url=url['url']).first()
+        user_url = url['url'].encode('utf-8')
+        existing_url = Url.query.filter_by(original_url=user_url).first()
         if existing_url:
             return "http://127.0.0.1:5000/{}".format(existing_url.short_url)
         else:
-            encoded_url = hashlib.sha1(url['url']).hexdigest()
+            encoded_url = hashlib.sha1(user_url).hexdigest()
             record = Url()
-            record.original_url = url['url']
+            record.original_url = user_url
             record.short_url = encoded_url
-            db.session.add(record)
-            db.session.commit()
+            record.save_to_db()
             return "http://127.0.0.1:5000/{}".format(encoded_url)
     except Exception as e:
-        print(e)
+        raise e
         return "Error Occured. Try Later"
 
 @router.route('/api/register')

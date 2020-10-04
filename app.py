@@ -9,13 +9,10 @@ app.register_blueprint(router)
 db = SQLAlchemy(app)
 
 
+@app.before_first_request
 def db_init():
-    from models import Url, User
     db.create_all()
-    db.session.commit()
-    db.session.close()
 
 
 if __name__ == '__main__':
-    db_init()
     app.run()
