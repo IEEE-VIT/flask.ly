@@ -1,9 +1,11 @@
+from django.db import models
+
 from app import db
 
 
-class User:
-    # Create the User model which stores their email ID and password
-    pass
+class User(models.Model):
+    email = models.EmailField(max_length=100, unique=True, blank=False)
+    password = models.CharField(max_length=50,blank=False)
 
 
 # Maximum size of original URL is set according to this information:
