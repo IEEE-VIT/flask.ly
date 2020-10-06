@@ -1,12 +1,14 @@
 from base64 import encode, encodebytes
 from flask import Blueprint
+import sqlalchemy
 import base64
 import time
+import hashlib
 from flask.globals import request
 from werkzeug.utils import redirect
 router = Blueprint("router", __name__)
 
-key_url_mapping={}
+key_url_mapping = {}
 # a dictionary stores data in the form of key:value
 # Here, the key will store the shortened URL and
 # the value corresponding to it will store the actual URL
@@ -37,17 +39,27 @@ def quickShorten():
         return "Error Occured. Try Later"
     # return 1;
 
-@router.route('/api/shorten/url')
+@router.route('/api/shorten/url', methods=['POST'])
 def shorten():
-    # Take the input URL from a user
-    # Check if it's already in the database
-    # If it already exists: return the shortened URL
-    # Else: Shorten it using any encoding or algorithm 
-    # You can use Base 62 too, (https://helloacm.com/base62/)
-    # Store the input URL and the shortened URL
-    # mapped together in the url database
-    # Return the shortened URL back
-    return 1;
+    from models import Url
+    Url.create_table()
+
+    try:
+        url = request.json
+        user_url = url['url'].encode('utf-8')
+        existing_url = Url.query.filter_by(original_url=user_url).first()
+        if existing_url:
+            return "http://127.0.0.1:5000/{}".format(existing_url.short_url)
+        else:
+            encoded_url = hashlib.sha1(user_url).hexdigest()
+            record = Url()
+            record.original_url = user_url
+            record.short_url = encoded_url
+            record.save_to_db()
+            return "http://127.0.0.1:5000/{}".format(encoded_url)
+    except Exception as e:
+        raise e
+        return "Error Occured. Try Later"
 
 @router.route('/api/register')
 def register():
@@ -91,3 +103,4 @@ def redirectToActualURL(key):
     # Get the entered URL as (localhost:5000/shortenedURL)
     # Now, this route finds the actual URL corresponding to the given one
     # and redirects the user to that actual URL
+    return "1";
